@@ -5,26 +5,26 @@ import * as moment from 'moment';
 
 //TODO learn and add here more samples from firebase functions samples project on github to https
 
-//*middleware for checking authorization header -- use postman or curl to test & then Uncomment the following line
-// const auth = (req: functions.Request, res: functions.Response, next: any) => {
-//     if (req.headers.authorization === 'secret-key') {
-//         next();
-//     } else {
-//         res.status(401).send('Not authorized');
-//     }
-// };
+//*middleware for checking authorization header -- use postman or curl to test 
+const auth = (req: functions.Request, res: express.Response, next: any) => {
+    if (req.headers.authorization === 'secret-key') {
+        next();
+    } else {
+        res.status(401).send('Not authorized');
+    }
+};
 //*middleware for returning a response if user authorized
-const checkAuthFunction = (req: functions.Request, res: functions.Response) => {
-    res.send(`Authorized ${req.header('Authorization')}`);
+const checkAuthFunction = (request: functions.Request, response: express.Response) => {
+    response.send(`Authorized ${request.headers.authorization}`);
 }
 
 //* sends the date as a response to the request <functionsURL>/date
-const date = (request: functions.Request, response: functions.Response) => {
+const date = (request: functions.Request, response: express.Response) => {
     response.send(`The date for today is ${moment().format("MMM Do YY")}`);
 };
 
 //*  send date and time of the server <functionsURL>/formattedDate
-const fullDate = (request: functions.Request, response: functions.Response) => {
+const fullDate = (request: functions.Request, response: express.Response) => {
     if (request.method === 'PUT') {
         response.status(403).send('Forbidden');
         return;
@@ -43,7 +43,7 @@ const app = express();
 app.use(cors({ origin: true }));
 
 //* un comment when using middleware auth, using headers in request curl or postman
-// app.use(auth);
+app.use(auth);
 
 //* accessible at <functionsURL>/api/<route>
 app.use('/checkAuth', checkAuthFunction);
@@ -56,7 +56,7 @@ export const api = functions.https.onRequest(app);
 
 
 //*standalone functions accessible at <functionsURL>/http-functions
-export const httpFunction = functions.https.onRequest((request, response) => {
+export const httpFunction = functions.https.onRequest((request: functions.Request, response: express.Response) => {
     response.send("Hello from Firebase!");
 });
 
