@@ -5,3 +5,8 @@ export { httpFunction, api } from "./http-functions";
 
 export { scheduledFunction } from './scheduled-functions';
 
+export { generateThumbnail } from './storage';
+
+export { onCreateUser, onDeleteUser } from './auth';
+
+export { onNewNote, updateUser } from './firestore';
