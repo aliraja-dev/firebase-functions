@@ -1,10 +1,8 @@
 import * as functions from 'firebase-functions';
-import * as Twilio from 'twilio';
-import * as admin from 'firebase-admin';
 import { CallableContext } from 'firebase-functions/v1/https';
 
 
-exports.addMessage = functions.https.onCall((data: any, context: CallableContext): any | Promise<any> => {
+export const addMessage = functions.https.onCall((data: any, context: CallableContext): any | Promise<any> => {
     //* Message text passed from the client.
     const text = data.text;
     // Checking attribute.
@@ -25,7 +23,7 @@ exports.addMessage = functions.https.onCall((data: any, context: CallableContext
     const picture = context.auth.token.picture || null;
     const email = context.auth.token.email || null;
 
-    //* return the message to the client
+    //* return the message to the client Or we can return as a promise too
     return { uid, name, picture, email, text };
 
     //* for more details https://firebase.google.com/docs/functions/callable

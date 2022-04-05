@@ -42,7 +42,7 @@ const app = express();
 //* to allow cross origin requests for functions
 app.use(cors({ origin: true }));
 
-//* un comment when using middleware auth, using headers in request curl or postman
+//* when using middleware auth, use authorization headers with value 'secret-key' in request curl or postman
 app.use(auth);
 
 //* accessible at <functionsURL>/api/<route>
